@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code-Quest: Aprendiendo Java Jugando | Presentación Interactiva UV</title>
+  <meta name="description" content="Presentación interactiva sobre Code-Quest: Aprendiendo Java Jugando. Videojuego RPG 2D desarrollado en la Universidad Veracruzana para la enseñanza de programación en Java.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Press+Start+2P&family=Outfit:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos auténticos del videojuego original y estilos de la presentación -->
+  <link rel="stylesheet" href="css/style_game.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Canvas de Partículas de Fondo -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Orbes de Luz de Ambiente -->
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+
+  <!-- Canvas de Confeti para Celebraciones -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="presentation-container">
+    
+    <!-- ==========================================
+         BARRA SUPERIOR GLOBAL (HEADER)
+         ========================================== -->
+    <header class="deck-header">
+      <div class="deck-brand">
+        <div class="uv-logo-box" title="Universidad Veracruzana">
+          <img src="assets/images/uv.png" alt="Universidad Veracruzana" class="uv-logo-img">
+        </div>
+        <div class="brand-sprite-box">
+          <img src="assets/images/jugador_quieto_abajo.png" alt="Héroe" class="pixel-sprite">
+        </div>
+        <div>
+          <h1 class="brand-title">Code<span>Quest</span>: Aprendiendo Java Jugando</h1>
+        </div>
+        <span class="brand-realm-tag">Reino de Bytevalia</span>
+      </div>
+
+      <div class="deck-tools">
+        <!-- Selector y Toggle de Música del Juego -->
+        <button id="btn-toggle-music" class="music-toggle-btn" title="Banda Sonora de Bytevalia (mapa.mp3)">
+          🎵 Música: OFF
+        </button>
+
+        <!-- Cronómetro del Presentador -->
+        <div class="tool-badge">
+          <span>⏱️</span>
+          <span id="timer-val" class="timer-display">00:00</span>
+          <button id="btn-timer-toggle" class="tool-btn" title="Iniciar / Pausar">▶</button>
+          <button id="btn-timer-reset" class="tool-btn" title="Reiniciar">↺</button>
+        </div>
+
+        <!-- Notas del Orador -->
+        <button id="btn-notes" class="tool-btn" title="Notas del Orador [N]">📝</button>
+
+        <!-- Vista Mosaico de Diapositivas -->
+        <button id="btn-overview" class="tool-btn" title="Vista de Mosaico [O]">☷</button>
+
+        <!-- Pantalla Completa -->
+        <button id="btn-fullscreen" class="tool-btn" title="Pantalla Completa [F]">⛶</button>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         VIEWPORT DE DIAPOSITIVAS (12 SLIDES)
+         ========================================== -->
+    <main class="slides-viewport">
+
+      <!-- SLIDE 1: PORTADA INSTITUCIONAL Y DEL JUEGO -->
+      <section class="slide active" id="slide-1" data-title="Portada Institucional">
+        <div class="hero-layout">
+          <!-- Columna Izquierda: Información Institucional y del Proyecto -->
+          <div class="hero-content">
+            <!-- Distinción Institucional UV del juego original -->
+            <div class="uv-institutional-banner">
+              <div class="uv-logo-badge">
+                <img src="assets/images/uv.png" alt="Universidad Veracruzana" class="uv-badge-img">
+              </div>
+              <div class="uv-banner-info">
+                <h3>UNIVERSIDAD VERACRUZANA</h3>
+                <p>Facultad de Contaduría y Administración · Licenciatura en Sistemas Computacionales Administrativos</p>
+              </div>
+            </div>
+
+            <!-- Contenedor Oficial del Logotipo de Code Quest -->
+            <div class="game-logo-container" style="text-align: left; margin: 12px 0 8px 0;">
+              <div class="logo-shield" style="justify-content: flex-start; gap: 8px;">
+                <img src="assets/icons/espadas_cruzadas.png" class="pixel-icon pixel-icon-lg" alt="Espadas">
+                <img src="assets/icons/escudo.png" class="pixel-icon pixel-icon-lg" alt="Escudo">
+              </div>
+              <h1 class="game-title" style="font-size: 2.4rem; letter-spacing: 2px;">CODE QUEST</h1>
+              <p class="game-subtitle" style="font-size: 0.92rem; color: var(--gold-light);">El Reino Sagrado de los Fundamentos de Java</p>
+            </div>
+
+            <p class="hero-desc">
+              Una herramienta interactiva de desarrollo web creada para fortalecer la lógica de programación y la sintaxis de Java mediante una aventura RPG inmersiva en el reino de <strong>Bytevalia</strong>.
+            </p>
+
+            <!-- Fila de Ítems Sagrados del Juego -->
+            <div class="hero-icons-row">
+              <div class="hero-item-badge">
+                <img src="assets/icons/espada.png" alt="Espada" class="pixel-icon">
+                <span>Combate de Código</span>
+              </div>
+              <div class="hero-item-badge">
+                <img src="assets/icons/escudo.png" alt="Escudo" class="pixel-icon">
+                <span>Lógica Segura</span>
+              </div>
+              <div class="hero-item-badge">
+                <img src="assets/icons/medalla.png" alt="Medalla" class="pixel-icon">
+                <span>20 Medallas de Java</span>
+              </div>
+            </div>
+
+            <!-- Tarjeta del Expositor (Nombre Completo y Facultad Correcta) -->
+            <div class="presenter-card">
+              <div class="presenter-avatar-box">
+                <img src="assets/images/jugador_quieto_abajo.png" alt="Avatar Héroe" class="pixel-sprite">
+              </div>
+              <div class="presenter-info-content">
+                <span class="presenter-tag">PRESENTADO POR:</span>
+                <div class="presenter-main-name">Luis Donaldo Huerta Chávez</div>
+                <div class="presenter-role-text">Estudiante de la Licenciatura en Sistemas Computacionales Administrativos</div>
+                <div class="presenter-faculty-text">Facultad de Contaduría y Administración · Universidad Veracruzana</div>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:14px; margin-top:10px;">
+              <button id="btn-start-hero" class="btn-retro btn-primary pulse-hover">
+                <img src="assets/icons/play.png" class="pixel-icon" alt="Play"> Explorar Presentación <span>→</span>
+              </button>
+              <button id="btn-quick-sound" class="btn-retro btn-secondary">
+                <img src="assets/icons/sonido_on.png" class="pixel-icon" alt="Audio"> Probar Banda Sonora
+              </button>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Simulación Viva de la Ventana del Videojuego (Cero imágenes falsas) -->
+          <div class="hero-visual">
+            <div class="game-window-frame">
+              <!-- Barra de Título de la Ventana del Juego -->
+              <div class="game-window-titlebar">
+                <div class="window-title-left">
+                  <img src="assets/icons/espada.png" class="pixel-icon-sm" alt="Icono">
+                  <span>Code Quest v1.1 - Reino de Bytevalia [En Vivo]</span>
+                </div>
+                <div class="window-controls">
+                  <span class="win-btn">―</span>
+                  <span class="win-btn">□</span>
+                  <span class="win-btn win-close">✕</span>
+                </div>
+              </div>
+
+              <!-- HUD Superior Real del Juego Incrustado -->
+              <div class="game-window-hud">
+                <div class="hud-left" style="gap:8px;">
+                  <div class="hud-badge player-badge" style="padding:4px 8px; font-size:11px;">
+                    <img src="assets/icons/escudo.png" class="pixel-icon-sm" alt="Escudo">
+                    <span>Héroe</span>
+                  </div>
+                  <div class="hud-hearts" id="hero-preview-hearts" style="display:flex; gap:3px;">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                  </div>
+                </div>
+                <div class="hud-stats" style="gap:6px;">
+                  <div class="hud-badge" style="padding:4px 6px; font-size:10px;">
+                    <img src="assets/icons/espada.png" class="pixel-icon-sm" alt="ATQ">
+                    <span style="color:var(--gold-light);">25</span>
+                  </div>
+                  <div class="hud-badge" style="padding:4px 6px; font-size:10px;">
+                    <img src="assets/icons/pocion.png" class="pixel-icon-sm" alt="Poción">
+                    <span style="color:#4ade80;">2</span>
+                  </div>
+                  <div class="hud-badge" style="padding:4px 6px; font-size:10px;">
+                    <img src="assets/icons/llave.png" class="pixel-icon-sm" alt="Llave">
+                    <span style="color:#38bdf8;">2</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Escenario Interactivo del Reino (Renderizado con sprites reales de pasto, tierra, héroe y jefe) -->
+              <div class="game-stage-viewport" id="hero-game-stage" title="¡Haz clic para interactuar con el Héroe y el Duende!">
+                <div class="stage-scenery">
+                  <div class="tile-tree-spot"><img src="assets/images/arbol_grande.png" alt="Árbol" class="pixel-sprite"></div>
+                  <div class="tile-chest-spot"><img src="assets/images/cofre_cerrado.png" alt="Cofre" class="pixel-sprite" id="hero-stage-chest"></div>
+                  <div class="tile-flower-spot-1"><img src="assets/images/flor_roja.png" alt="Flor" class="pixel-sprite"></div>
+                  <div class="tile-flower-spot-2"><img src="assets/images/flor_azul.png" alt="Flor" class="pixel-sprite"></div>
+                  
+                  <!-- Héroe Real del Juego -->
+                  <div class="hero-character-sprite" id="hero-stage-character">
+                    <img src="assets/images/jugador_quieto_abajo.png" alt="Héroe" class="pixel-sprite sprite-animated-hero">
+                  </div>
+
+                  <!-- Jefe 1: Duende de la Sintaxis -->
+                  <div class="boss-character-sprite" id="hero-stage-boss">
+                    <img src="assets/images/enemigo1.png" alt="Duende de la Sintaxis" class="pixel-sprite sprite-float">
+                  </div>
+                </div>
+
+                <!-- Notificación Toast Flotante -->
+                <div class="stage-interactive-callout" id="stage-callout">
+                  <img src="assets/icons/espadas_cruzadas.png" class="pixel-icon-sm" alt="Acción">
+                  <span>¡Haz clic en el escenario para blandir tu espada!</span>
+                </div>
+              </div>
+
+              <!-- Barra Inferior de Estado de la Ventana -->
+              <div class="game-window-footer">
+                <span class="game-status-text">🟢 Motor HTML5 Canvas / Web Audio Activo</span>
+                <span class="game-status-coords">X: 12 · Y: 18 · Sala 1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: INTRODUCCIÓN Y VISIÓN GENERAL -->
+      <section class="slide" id="slide-2" data-title="¿Qué es este proyecto?">
+        <div class="slide-header">
+          <div class="slide-category">Visión General</div>
+          <h2 class="slide-title">¿Qué es este <span class="gradient-text">proyecto?</span></h2>
+          <p class="slide-subtitle">Una plataforma educativa web que convierte el estudio riguroso de Java en una travesía RPG accesible.</p>
+        </div>
+
+        <div class="slide-body intro-grid">
+          <!-- Columna Izquierda: 3 Pilares del Proyecto -->
+          <div class="bullet-stack">
+            <div class="bullet-card active">
+              <img src="assets/icons/espadas_cruzadas.png" alt="RPG" class="bullet-icon-img pixel-icon-lg">
+              <div class="bullet-body">
+                <h4>Plataforma Web Interactiva Estilo RPG</h4>
+                <p>Diseñada específicamente para estudiantes universitarios que inician en Java. Ofrece un mundo 2D de exploración donde cada sendero conduce a un reto de programación.</p>
+              </div>
+            </div>
+
+            <div class="bullet-card">
+              <img src="assets/icons/sabio_foco.png" alt="Sinergia" class="bullet-icon-img pixel-icon-lg">
+              <div class="bullet-body">
+                <h4>Videojuegos + Aprendizaje Técnico</h4>
+                <p>Combina mecánicas tradicionales de rol (combates por turnos, cofres de tesoro, llaves de mazmorras y medallas) con desafíos de lógica y conceptos fundamentales del lenguaje.</p>
+              </div>
+            </div>
+
+            <div class="bullet-card">
+              <img src="assets/icons/objetivo.png" alt="Retos" class="bullet-icon-img pixel-icon-lg">
+              <div class="bullet-body">
+                <h4>Retos Dinámicos y Feedback Formativo</h4>
+                <p>El código no se memoriza, se comprende: los aciertos permiten avanzar y derrotar a los jefes, mientras que los fallos activan la explicación del Sabio para aprender sin frustración.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Demostración del HUD Real y los Ítems Sagrados del Videojuego -->
+          <div class="game-system-card">
+            <div class="system-card-header">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <img src="assets/icons/escudo.png" class="pixel-icon" alt="Escudo">
+                <span style="font-family:var(--font-retro); font-size:0.75rem; color:var(--gold-light);">ESTRUCTURA DE EXPLORACIÓN DE BYTEVALIA</span>
+              </div>
+              <span class="system-badge">HUD Real del Juego</span>
+            </div>
+
+            <!-- Interfaz HUD Superior Real -->
+            <div class="hud-container-demo">
+              <div class="hud-left">
+                <div class="hud-badge player-badge">
+                  <img src="assets/icons/escudo.png" class="pixel-icon" alt="Escudo">
+                  <span>Héroe de Java</span>
+                </div>
+                <div class="hud-hearts">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon" alt="Vida">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon" alt="Vida">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon" alt="Vida">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon" alt="Vida">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon" alt="Vida">
+                </div>
+              </div>
+              <div class="hud-stats">
+                <div class="hud-badge" title="Poder de Ataque">
+                  <img src="assets/icons/espada.png" class="pixel-icon" alt="Espada">
+                  <span class="hud-label">ATQ:</span>
+                  <strong>25</strong>
+                </div>
+                <div class="hud-badge" title="Pociones">
+                  <img src="assets/icons/pocion.png" class="pixel-icon" alt="Poción">
+                  <span class="hud-label">POCIONES:</span>
+                  <strong>2</strong>
+                </div>
+                <div class="hud-badge" title="Llaves">
+                  <img src="assets/icons/llave.png" class="pixel-icon" alt="Llave">
+                  <span class="hud-label">LLAVES:</span>
+                  <strong>2</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Showcase de los 3 Ítems Sagrados de Bytevalia -->
+            <div class="items-triad-grid">
+              <div class="triad-item">
+                <div class="triad-icon-box"><img src="assets/icons/espada.png" alt="Espada" class="pixel-icon-lg"></div>
+                <h5>Espadas de Acero</h5>
+                <p>Aumentan permanentemente +5 el poder de ataque al encontrarlas en cofres ocultos.</p>
+              </div>
+              <div class="triad-item">
+                <div class="triad-icon-box"><img src="assets/icons/pocion.png" alt="Poción" class="pixel-icon-lg"></div>
+                <h5>Pociones de Vida</h5>
+                <p>Restauran 1 corazón de salud (máximo 5) para continuar combatiendo sin reiniciar.</p>
+              </div>
+              <div class="triad-item">
+                <div class="triad-icon-box"><img src="assets/icons/llave.png" alt="Llave" class="pixel-icon-lg"></div>
+                <h5>Llaves de Mazmorra</h5>
+                <p>Objetos esenciales para abrir las puertas de acceso a las 20 salas de los guardianes.</p>
+              </div>
+            </div>
+
+            <div class="game-tip-box">
+              <img src="assets/icons/sabio_foco.png" class="pixel-icon" alt="Sabio">
+              <span>El estudiante gestiona sus recursos libremente desde su mochila con la tecla [G] o desde el menú de pausa.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: EL ORIGEN DEL PROYECTO (COMPARATIVA PEDAGÓGICA) -->
+      <section class="slide" id="slide-3" data-title="El Origen del Proyecto">
+        <div class="slide-header">
+          <div class="slide-category">Fundamento & Motivación</div>
+          <h2 class="slide-title">El Origen del <span class="gradient-text">Proyecto</span></h2>
+          <p class="slide-subtitle">¿De dónde surgió la necesidad de crear Code Quest en la Universidad Veracruzana?</p>
+        </div>
+
+        <div class="slide-body origin-grid">
+          <!-- Tarjeta: El Método Tradicional -->
+          <div class="origin-card card-traditional">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <img src="assets/icons/error_rojo.png" alt="Error" class="pixel-icon-lg">
+              <div>
+                <h3 style="font-size: 1.25rem; color:#fca5a5; font-family:var(--font-title);">El Método Tradicional</h3>
+                <span style="font-size:0.75rem; color:var(--text-muted);">La Barrera de la Sintaxis en Consola</span>
+              </div>
+            </div>
+            
+            <ul class="origin-bullet-list">
+              <li>
+                <strong>Sintaxis Estricta y Críptica:</strong> La transición a Java exige dominar tipos primitivos, mayúsculas y minúsculas exactas y el cierre con punto y coma (;) desde el primer día.
+              </li>
+              <li>
+                <strong>Falta de Retroalimentación Gráfica:</strong> Los ejercicios en terminal y consola negra no transmiten avance visual ni motivan al alumno que recién descubre la programación.
+              </li>
+              <li>
+                <strong>Curva de Frustración Temprana:</strong> Al enfrentarse a errores de compilación sin contexto amigable, muchos estudiantes pierden el interés o abandonan la materia.
+              </li>
+            </ul>
+
+            <div class="origin-quote-box error-border">
+              "El estudiante novel a menudo confunde un error de sintaxis elemental con una falta de aptitud para la programación."
+            </div>
+          </div>
+
+          <!-- Tarjeta: La Propuesta Code-Quest -->
+          <div class="origin-card card-solution">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <img src="assets/icons/check_verde.png" alt="Solución" class="pixel-icon-lg">
+              <div>
+                <h3 style="font-size: 1.25rem; color:#86efac; font-family:var(--font-title);">La Solución: Code Quest</h3>
+                <span style="font-size:0.75rem; color:var(--text-muted);">Gamificación Activa en el Reino de Java</span>
+              </div>
+            </div>
+
+            <ul class="origin-bullet-list">
+              <li>
+                <strong>El Compilador como Oponente:</strong> La regla de Java se personifica en guardianes medievales. Resolver el error de sintaxis es dar un golpe certero de espada.
+              </li>
+              <li>
+                <strong>Refuerzo Cognitivo Positivo:</strong> Coleccionar 20 medallas de oro, abrir cofres y escuchar música de victoria genera estímulos de logro inmediato en el alumno.
+              </li>
+              <li>
+                <strong>Inclusión y Cero Barreras Técnicas:</strong> Al ser 100% web, el estudiante no necesita configurar entornos pesados; abre su navegador en PC o móvil y practica de inmediato.
+              </li>
+            </ul>
+
+            <div class="origin-quote-box success-border">
+              "Aprender Java a través de un juego devuelve la curiosidad y el sentido de logro al proceso de programar."
+            </div>
+          </div>
+        </div>
+
+        <!-- Sello de Acreditación UV -->
+        <div class="uv-auth-seal-strip">
+          <img src="assets/images/uv.png" alt="UV" class="uv-mini-seal">
+          <span>Proyecto Académico de Sistemas Computacionales Administrativos · Facultad de Contaduría y Administración (UV)</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: CUÁL ES NUESTRO PROPÓSITO -->
+      <section class="slide" id="slide-4" data-title="¿Cuál es nuestro Propósito?">
+        <div class="slide-header">
+          <div class="slide-category">Misión Educativa</div>
+          <h2 class="slide-title">¿Cuál es nuestro <span class="gradient-text">Propósito?</span></h2>
+          <p class="slide-subtitle">Tres pilares formativos diseñados para transformar la enseñanza de la computación.</p>
+        </div>
+
+        <div class="slide-body purpose-layout">
+          <!-- Grid Simétrico de 3 Pilares -->
+          <div class="purpose-cards-grid">
+            <div class="purpose-card">
+              <div class="purpose-icon-banner">
+                <img src="assets/icons/libro.png" alt="Libro" class="pixel-icon-xl">
+              </div>
+              <h4>1. Fortalecer Fundamentos</h4>
+              <p>Consolidar las bases críticas que todo programador requiere: declaración de variables, operadores aritméticos, bifurcaciones <code>if/else</code>, bucles y programación orientada a objetos.</p>
+              <div class="purpose-tag">Rigor Conceptual</div>
+            </div>
+
+            <div class="purpose-card active-purpose">
+              <div class="purpose-icon-banner">
+                <img src="assets/icons/sabio_foco.png" alt="Sabio" class="pixel-icon-xl">
+              </div>
+              <h4>2. Aprendizaje Sin Presión</h4>
+              <p>Cambiar el paradigma del castigo por el error formativo. Cuando el estudiante se equivoca en batalla, el Sabio le explica el motivo exacto, reforzando el concepto sin penalizar su motivación.</p>
+              <div class="purpose-tag">Pedagogía Humanista</div>
+            </div>
+
+            <div class="purpose-card">
+              <div class="purpose-icon-banner">
+                <img src="assets/icons/estrella.png" alt="Web" class="pixel-icon-xl">
+              </div>
+              <h4>3. Accesibilidad Universal</h4>
+              <p>Garantizar que cualquier estudiante, independientemente de la potencia de su equipo, pueda ejecutar el juego fluidamente desde cualquier navegador web moderno sin descargas ni configuraciones.</p>
+              <div class="purpose-tag">Tecnología Web Abierta</div>
+            </div>
+          </div>
+
+          <!-- Ciclo de Aprendizaje en Bytevalia -->
+          <div class="learning-cycle-strip">
+            <div class="cycle-title">
+              <img src="assets/icons/espadas_cruzadas.png" class="pixel-icon" alt="Ciclo">
+              <span>EL CICLO DE APRENDIZAJE EN BYTEVALIA:</span>
+            </div>
+            <div class="cycle-steps">
+              <div class="cycle-node"><span class="step-num">1</span> Explorar el Mapa</div>
+              <div class="cycle-arrow">➔</div>
+              <div class="cycle-node"><span class="step-num">2</span> Encontrar Sabiduría en Cofres</div>
+              <div class="cycle-arrow">➔</div>
+              <div class="cycle-node"><span class="step-num">3</span> Desafiar al Guardián</div>
+              <div class="cycle-arrow">➔</div>
+              <div class="cycle-node highlight"><span class="step-num">4</span> Forjar la Medalla de Java</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: QUÉ PROBLEMAS ATACAMOS (CURVA DE DIFICULTAD Y JEFES) -->
+      <section class="slide" id="slide-5" data-title="¿Qué problemas atacamos?">
+        <div class="slide-header">
+          <div class="slide-category">Progresión Pedagógica</div>
+          <h2 class="slide-title">¿Qué problemas <span class="gradient-text">atacamos?</span></h2>
+          <p class="slide-subtitle">Evolución progresiva de dificultad: cómo cada jefe representa un reto real de la programación en Java.</p>
+        </div>
+
+        <div class="slide-body boss-tier-showcase">
+          <!-- 3 Jefes Emblemáticos con Sprites Reales, Barras de Vida e Interacción -->
+          
+          <!-- Boss 1: Duende de la Sintaxis -->
+          <div class="boss-tier-card" id="card-boss-1">
+            <div class="boss-tier-badge tier-init">NIVEL 1 · FUNDAMENTAL</div>
+            <div class="boss-tier-sprite-box">
+              <img src="assets/images/enemigo1.png" alt="Duende de la Sintaxis" class="pixel-sprite boss-tier-sprite">
+            </div>
+            <h3 class="boss-tier-name">Duende de la Sintaxis</h3>
+            <p class="boss-tier-role">Guardián del Punto y Coma</p>
+
+            <div class="boss-hp-track-box">
+              <div class="hp-label-row">
+                <span>Puntos de Salud:</span>
+                <strong id="hp-val-1">50 / 50 HP</strong>
+              </div>
+              <div class="hp-bar-bg">
+                <div class="hp-bar-fill" id="hp-fill-1" style="width:100%;"></div>
+              </div>
+            </div>
+
+            <div class="boss-problem-box">
+              <strong>🚨 Problema Atacado:</strong>
+              <p>Olvido del punto y coma (;), cierre incorrecto de llaves {} y errores al estructurar el método <code>main()</code>.</p>
+            </div>
+
+            <button class="btn-retro btn-primary btn-attack-tier" data-boss-idx="1" style="width:100%;">
+              <img src="assets/icons/espada.png" class="pixel-icon" alt="Atacar"> Probar Ataque con Código
+            </button>
+          </div>
+
+          <!-- Boss 4: Espectro del Print -->
+          <div class="boss-tier-card" id="card-boss-4">
+            <div class="boss-tier-badge tier-mid">NIVEL 4 · INTERMEDIO</div>
+            <div class="boss-tier-sprite-box">
+              <img src="assets/images/enemigo4.png" alt="Espectro del Print" class="pixel-sprite boss-tier-sprite">
+            </div>
+            <h3 class="boss-tier-name">Espectro del Print</h3>
+            <p class="boss-tier-role">Fantasma de la Salida Estándar</p>
+
+            <div class="boss-hp-track-box">
+              <div class="hp-label-row">
+                <span>Puntos de Salud:</span>
+                <strong id="hp-val-4">80 / 80 HP</strong>
+              </div>
+              <div class="hp-bar-bg">
+                <div class="hp-bar-fill" id="hp-fill-4" style="width:100%;"></div>
+              </div>
+            </div>
+
+            <div class="boss-problem-box">
+              <strong>🚨 Problema Atacado:</strong>
+              <p>Confusión entre imprimir literales ("texto") vs evaluar variables, uso de <code>System.out.println</code> y concatenación (+).</p>
+            </div>
+
+            <button class="btn-retro btn-primary btn-attack-tier" data-boss-idx="4" style="width:100%;">
+              <img src="assets/icons/espada.png" class="pixel-icon" alt="Atacar"> Probar Ataque con Código
+            </button>
+          </div>
+
+          <!-- Boss 8: Dragón del Bucle For -->
+          <div class="boss-tier-card" id="card-boss-8">
+            <div class="boss-tier-badge tier-adv">NIVEL 8 · AVANZADO</div>
+            <div class="boss-tier-sprite-box">
+              <img src="assets/images/enemigo8.png" alt="Dragón del Bucle For" class="pixel-sprite boss-tier-sprite">
+            </div>
+            <h3 class="boss-tier-name">Dragón del Bucle For</h3>
+            <p class="boss-tier-role">Señor de las Iteraciones</p>
+
+            <div class="boss-hp-track-box">
+              <div class="hp-label-row">
+                <span>Puntos de Salud:</span>
+                <strong id="hp-val-8">120 / 120 HP</strong>
+              </div>
+              <div class="hp-bar-bg">
+                <div class="hp-bar-fill" id="hp-fill-8" style="width:100%;"></div>
+              </div>
+            </div>
+
+            <div class="boss-problem-box">
+              <strong>🚨 Problema Atacado:</strong>
+              <p>Bucles infinitos, errores en la condición de parada (off-by-one) y confusión entre incremento <code>i++</code> y decremento.</p>
+            </div>
+
+            <button class="btn-retro btn-primary btn-attack-tier" data-boss-idx="8" style="width:100%;">
+              <img src="assets/icons/espada.png" class="pixel-icon" alt="Atacar"> Probar Ataque con Código
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: EL REINO DE BYTEVALIA Y LOS 20 JEFES (CÓDICE DE LOS 20 GUARDIANES) -->
+      <section class="slide" id="slide-6" data-title="El Reino de Bytevalia">
+        <div class="slide-header">
+          <div class="slide-category">Mundo y Contenido Curricular</div>
+          <h2 class="slide-title">El Reino de <span class="gradient-text">Bytevalia</span> y sus 20 Jefes</h2>
+          <p class="slide-subtitle">Códice curricular completo con sprites oficiales, temas de Java y medallas sagradas por derrotar.</p>
+        </div>
+
+        <div class="slide-body bosses-codex-layout">
+          <!-- Selector de Tiers Temáticos -->
+          <div class="codex-tier-tabs">
+            <button class="codex-tab active" data-tier="1">
+              <span class="tab-tier-num">TIER 1</span>
+              <span>Fundamentos Básicos (Jefes 1-5)</span>
+            </button>
+            <button class="codex-tab" data-tier="2">
+              <span class="tab-tier-num">TIER 2</span>
+              <span>Control, Bucles y Arreglos (Jefes 6-10)</span>
+            </button>
+            <button class="codex-tab" data-tier="3">
+              <span class="tab-tier-num">TIER 3</span>
+              <span>Métodos y Modularidad (Jefes 11-15)</span>
+            </button>
+            <button class="codex-tab" data-tier="4">
+              <span class="tab-tier-num">TIER 4</span>
+              <span>POO Avanzada y JVM (Jefes 16-20)</span>
+            </button>
+          </div>
+
+          <!-- Grid Dinámico de 5 Jefes del Tier Seleccionado -->
+          <div id="codex-bosses-grid" class="codex-bosses-grid">
+            <!-- Renderizado dinámicamente con BOSSES_DATA mediante app.js -->
+          </div>
+
+          <!-- Banner Informativo del Audio de Combate -->
+          <div class="codex-audio-strip">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="assets/icons/sonido_on.png" class="pixel-icon" alt="Audio">
+              <span style="font-size:0.84rem; color:#cbd5e1;">Haz clic en cualquier jefe para escuchar su <strong>tema de batalla original en MP3</strong>.</span>
+            </div>
+            <span id="codex-playing-track" style="font-family:var(--font-retro); font-size:0.65rem; color:var(--gold-light);">Tema: mapa.mp3</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: DESAFÍO DE CÓDIGO (PREGUNTAS BÁSICAS Y EDUCATIVAS) -->
+      <section class="slide" id="slide-7" data-title="Conceptos Fundamentales">
+        <div class="slide-header">
+          <div class="slide-category">Evaluación Formativa</div>
+          <h2 class="slide-title">Desafío de Código: <span class="gradient-text">Preguntas Fundamentales</span></h2>
+          <p class="slide-subtitle">Preguntas prácticas directas con retroalimentación instantánea y sabiduría explicativa.</p>
+        </div>
+
+        <div class="slide-body skills-layout">
+          <!-- Columna Izquierda: 4 Conceptos Clave con Sprites Reales -->
+          <div class="curriculum-list">
+            <div class="curriculum-card active" data-q-index="0">
+              <div class="curriculum-sprite-box">
+                <img src="assets/images/enemigo1.png" alt="Duende" class="pixel-sprite">
+              </div>
+              <div>
+                <h4>1. Sintaxis Básica (Punto y Coma)</h4>
+                <p>Terminación obligatoria de cada sentencia de código ejecutable.</p>
+              </div>
+            </div>
+
+            <div class="curriculum-card" data-q-index="1">
+              <div class="curriculum-sprite-box">
+                <img src="assets/images/enemigo2.png" alt="Caballero" class="pixel-sprite">
+              </div>
+              <div>
+                <h4>2. Tipos de Datos (Enteros)</h4>
+                <p>Tipo primitivo <code>int</code> para almacenamiento numérico sin decimales.</p>
+              </div>
+            </div>
+
+            <div class="curriculum-card" data-q-index="2">
+              <div class="curriculum-sprite-box">
+                <img src="assets/images/enemigo4.png" alt="Espectro" class="pixel-sprite">
+              </div>
+              <div>
+                <h4>3. Salida por Pantalla (Print)</h4>
+                <p>Uso de <code>System.out.println()</code> para visualización en consola.</p>
+              </div>
+            </div>
+
+            <div class="curriculum-card" data-q-index="3">
+              <div class="curriculum-sprite-box">
+                <img src="assets/images/enemigo5.png" alt="Guardia" class="pixel-sprite">
+              </div>
+              <div>
+                <h4>4. Decisiones Lógicas (Condicional if)</h4>
+                <p>Estructura <code>if</code> para evaluar expresiones booleanas de verdadero o falso.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Panel de Pregunta Interactiva Real del Videojuego -->
+          <div class="battle-question-box">
+            <div class="question-header">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="q-badge" id="q-panel-badge">⚔️ Desafío de Java #1</span>
+                <span style="font-family:var(--font-retro); font-size:9px; color:#4ade80;">Básico & Educativo</span>
+              </div>
+              <h3 id="q-panel-title">¿Con qué símbolo o carácter debe terminar obligatoriamente cada instrucción en Java?</h3>
+            </div>
+
+            <!-- Opciones A, B, C, D con estilo idéntico al juego -->
+            <div id="q-options-container" class="battle-options-grid">
+              <!-- Generado dinámicamente con JS -->
+            </div>
+
+            <!-- Cuadro de Sabiduría del Sabio -->
+            <div id="q-wisdom-box" class="battle-explanation-card">
+              <div class="explanation-header">
+                <img src="assets/icons/sabio_foco.png" class="pixel-icon" alt="Sabio">
+                <strong>Consejo Pedagógico del Sabio:</strong>
+              </div>
+              <p id="q-wisdom-text">
+                ¡Elige una opción para atacar al guardián! En Java, el compilador requiere un delimitador estricto al finalizar cada sentencia.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: SISTEMA DE COMBATE Y SABIDURÍA (PANTALLA DE COMBATE EN VIVO) -->
+      <section class="slide" id="slide-8" data-title="Sistema de Combate y Sabiduría">
+        <div class="slide-header">
+          <div class="slide-category">Mecánicas de Combate & Pedagogía</div>
+          <h2 class="slide-title">Sistema de Combate y <span class="gradient-text">Sabiduría</span></h2>
+          <p class="slide-subtitle">La auténtica pantalla de batalla por turnos de Code Quest: aprende de cada golpe y vence con código.</p>
+        </div>
+
+        <div class="slide-body combat-arena-layout">
+          <!-- Arena Superior: Jefe Arriba a la Izquierda y Jugador Abajo a la Derecha -->
+          <div class="battle-arena">
+            <!-- Jefe (Arriba a la izquierda) -->
+            <div class="combatant-box boss-combatant">
+              <div class="combatant-hud">
+                <div class="name-row">
+                  <h3 id="live-boss-name">Duende de la Sintaxis</h3>
+                  <span class="boss-level-tag">Nv. 1</span>
+                </div>
+                <div class="hp-row">
+                  <div class="hp-bar-outer">
+                    <div class="hp-bar-fill" id="live-boss-hp-fill" style="width: 100%;"></div>
+                  </div>
+                  <span class="hp-text" id="live-boss-hp-text">50 / 50</span>
+                </div>
+                <div style="font-size:10px; color:#94a3b8; margin-top:4px;">
+                  Debilidad: Punto y Coma (;)
+                </div>
+              </div>
+              <div class="combatant-sprite-wrapper" id="live-boss-sprite-box" style="position:relative;">
+                <img src="assets/images/enemigo1.png" alt="Duende" class="pixel-sprite combatant-sprite" id="live-boss-sprite">
+                <img src="assets/icons/impacto.png" alt="Impacto" class="pixel-icon-xl live-impact-overlay hidden" id="live-impact-sprite">
+              </div>
+            </div>
+
+            <!-- Jugador (Abajo a la derecha) -->
+            <div class="combatant-box player-combatant">
+              <div class="combatant-sprite-wrapper" id="live-hero-sprite-box">
+                <img src="assets/images/jugador_quieto_abajo.png" alt="Héroe" class="pixel-sprite combatant-sprite" id="live-hero-sprite">
+              </div>
+              <div class="combatant-hud player-hud">
+                <div class="name-row">
+                  <h3>Héroe de Java</h3>
+                  <span class="player-stat-pill">Estudiante UV</span>
+                </div>
+                <div class="hp-row">
+                  <div class="hp-bar-outer">
+                    <div class="hp-bar-fill player-hp-fill" id="live-hero-hp-fill" style="width: 100%;"></div>
+                  </div>
+                  <span class="hp-text" id="live-hero-hp-text">5 / 5 <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida"></span>
+                </div>
+                <div class="player-battle-stats-row">
+                  <span class="battle-mini-stat"><img src="assets/icons/espada.png" class="pixel-icon-sm" alt="ATQ"> 25</span>
+                  <span class="battle-mini-stat" id="live-potions-label"><img src="assets/icons/pocion.png" class="pixel-icon-sm" alt="Pociones"> 2</span>
+                  <span class="battle-mini-stat"><img src="assets/icons/llave.png" class="pixel-icon-sm" alt="Llaves"> 2</span>
+                  <span class="battle-mini-stat"><img src="assets/icons/estrella.png" class="pixel-icon-sm" alt="Puntos"> 1000 PTS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interfaz Inferior de Combate (Idéntica al juego original) -->
+          <div class="battle-interface">
+            <!-- Diálogo del Combate -->
+            <div class="battle-dialog-box">
+              <p id="live-combat-dialog">
+                ⚔️ ¡El Duende de la Sintaxis te desafía! Elige tu acción para atacar o curarte con una poción de la mochila.
+              </p>
+            </div>
+
+            <!-- Botones de Acción de Combate -->
+            <div class="battle-options-box">
+              <button id="btn-live-attack" class="btn-retro btn-combat-action attack-action">
+                <img src="assets/icons/espada.png" class="pixel-icon" alt="Atacar"> ATACAR (-25 HP)
+              </button>
+              <button id="btn-live-heal" class="btn-retro btn-combat-action inv-action">
+                <img src="assets/icons/pocion.png" class="pixel-icon" alt="Poción"> TOMAR POCIÓN (+1 ❤️)
+              </button>
+            </div>
+
+            <!-- Explicación Pedagógica del Sabio en Combate -->
+            <div class="battle-explanation-card" style="flex:1.5;">
+              <div class="explanation-header">
+                <img src="assets/icons/sabio_foco.png" class="pixel-icon" alt="Sabio">
+                <strong>Sabiduría de Bytevalia:</strong>
+              </div>
+              <p id="live-combat-wisdom" style="font-size:12px; color:#e2e8f0; line-height:1.45;">
+                En Java, cada respuesta correcta equivale a un golpe certero. Si cometes un error, el sistema te orienta de inmediato con la fundamentación técnica para asimilar el concepto.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: GAMIFICACIÓN Y RECOMPENSAS (VITRINA DE 20 MEDALLAS E INVENTARIO) -->
+      <section class="slide" id="slide-9" data-title="Gamificación y Recompensas">
+        <div class="slide-header">
+          <div class="slide-category">Motivación & Logros</div>
+          <h2 class="slide-title">Gamificación e <span class="gradient-text">Incentivos de Progreso</span></h2>
+          <p class="slide-subtitle">Recompensas tangibles y coleccionables: 20 medallas sagradas de Java y gestión de recursos en la mochila.</p>
+        </div>
+
+        <div class="slide-body gamification-layout">
+          <!-- Columna Izquierda: Vitrina de las 20 Medallas de Oro Reales de Java -->
+          <div class="badges-vitrina-box">
+            <div class="vitrina-header">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <img src="assets/icons/medalla.png" class="pixel-icon" alt="Vitrina">
+                <span style="font-family:var(--font-retro); font-size:0.65rem; color:var(--gold-light);">
+                  VITRINA DE 20 MEDALLAS DE JAVA (100% COLECCIONABLES)
+                </span>
+              </div>
+              <span class="vitrina-badge">20 / 20 Obtenibles</span>
+            </div>
+
+            <!-- Grid de las 20 Medallas (5 columnas x 4 filas) -->
+            <div class="rewards-grid-20" id="medals-20-grid">
+              <!-- Generado dinámicamente o estructurado con medalla1.png a medalla20.png -->
+            </div>
+
+            <!-- Tarjeta de Detalle de la Medalla Seleccionada -->
+            <div class="medal-detail-bar" id="medal-detail-bar">
+              <img src="assets/images/medalla1.png" class="pixel-icon-lg" id="detail-medal-img" alt="Medalla">
+              <div>
+                <strong id="detail-medal-name" style="color:var(--gold-light); font-size:0.92rem;">Medalla del Punto y Coma</strong>
+                <p id="detail-medal-topic" style="font-size:0.8rem; color:#94a3b8;">Otorgada por vencer al Duende de la Sintaxis (Nivel 1). Valida el cierre de instrucciones.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Mochila de Aventura (Modal Real del Videojuego) -->
+          <div class="inventory-box-demo">
+            <div class="box-header" style="padding:10px 14px;">
+              <h2><img src="assets/icons/mochila.png" class="pixel-icon" alt="Mochila"> Mochila de Aventura</h2>
+              <span class="inv-badge" style="font-size:9px;">Tecla [G]</span>
+            </div>
+
+            <div class="inventory-content" style="padding:14px; gap:12px;">
+              <!-- Tarjeta de Estado del Héroe -->
+              <div class="inventory-status-card" style="padding:12px;">
+                <div class="inv-player-header">
+                  <h3 style="font-size:15px; color:#fff;">Héroe de Java</h3>
+                  <span class="inv-badge">Paladín de la UV</span>
+                </div>
+                <div class="inv-hearts-row" style="margin:8px 0;">
+                  <span class="inv-label" style="font-size:12px;">Salud:</span>
+                  <span class="inv-hearts-icons" style="display:flex; gap:3px;">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                    <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="Vida">
+                  </span>
+                  <span class="inv-hp-num" style="font-size:11px; color:#4ade80;">(5/5)</span>
+                </div>
+                <div class="inv-stats-mini-grid" style="gap:8px;">
+                  <div class="inv-stat-item" style="padding:6px 8px;">
+                    <img src="assets/icons/espada.png" class="pixel-icon-sm" alt="Ataque">
+                    <div class="inv-stat-texts">
+                      <span class="inv-stat-label" style="font-size:9px;">Ataque</span>
+                      <strong style="font-size:13px; color:var(--gold-light);">25</strong>
+                    </div>
+                  </div>
+                  <div class="inv-stat-item" style="padding:6px 8px;">
+                    <img src="assets/icons/llave.png" class="pixel-icon-sm" alt="Llaves">
+                    <div class="inv-stat-texts">
+                      <span class="inv-stat-label" style="font-size:9px;">Llaves</span>
+                      <strong style="font-size:13px; color:#38bdf8;">20</strong>
+                    </div>
+                  </div>
+                  <div class="inv-stat-item" style="padding:6px 8px;">
+                    <img src="assets/icons/medalla.png" class="pixel-icon-sm" alt="Medallas">
+                    <div class="inv-stat-texts">
+                      <span class="inv-stat-label" style="font-size:9px;">Medallas</span>
+                      <strong style="font-size:13px; color:#4ade80;">20 / 20</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sección de Pociones Curativas -->
+              <div class="inventory-items-section">
+                <h3 style="font-size:12px; margin-bottom:6px; color:var(--gold-light);">Pociones Curativas</h3>
+                <div class="potion-card" style="padding:10px;">
+                  <div class="potion-info" style="gap:10px;">
+                    <img src="assets/icons/pocion.png" class="pixel-icon-lg" alt="Poción">
+                    <div class="potion-meta">
+                      <h4 style="font-size:13px;">Poción de Restauración</h4>
+                      <p style="font-size:11px;">Restaura 1 corazón de vida (máx. 5).</p>
+                      <span class="potion-count-badge" style="font-size:10px;">Disponibles: <strong id="inv-demo-potions-count">2</strong></span>
+                    </div>
+                  </div>
+                  <button id="btn-use-potion-demo" class="btn-retro btn-primary" style="font-size:10px; padding:8px 12px;">
+                    Tomar Poción
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: ACCESIBILIDAD MÓVIL Y SALÓN DE LA FAMA EN LA NUBE -->
+      <section class="slide" id="slide-10" data-title="Controles Táctiles y Salón de la Fama">
+        <div class="slide-header">
+          <div class="slide-category">Accesibilidad & Comunidad</div>
+          <h2 class="slide-title">Controles Táctiles y <span class="gradient-text">Salón de la Fama</span></h2>
+          <p class="slide-subtitle">Dos características esenciales de Code Quest: jugabilidad táctil multiplataforma y motivación continua mediante la nube.</p>
+        </div>
+
+        <div class="slide-body innovations-2col-layout">
+          <!-- Columna 1: Controles Táctiles y D-Pad Virtual -->
+          <div class="innovation-card">
+            <div class="innovation-card-header">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <img src="assets/icons/reiniciar.png" class="pixel-icon-lg" alt="D-Pad">
+                <div>
+                  <h4 style="font-family:var(--font-title); font-size:1.15rem; color:#fff;">Cruceta Virtual (D-Pad) y Modo Móvil</h4>
+                  <span style="font-size:0.75rem; color:var(--cyan); font-family:var(--font-retro);">Accesibilidad 100% Web</span>
+                </div>
+              </div>
+              <span class="system-badge">Multiplataforma</span>
+            </div>
+
+            <!-- Banner de Orientación Horizontal -->
+            <div class="orientation-banner-demo">
+              <img src="assets/icons/reiniciar.png" class="pixel-icon" alt="Girar">
+              <span>Sugerencia: <strong>Gira tu móvil en horizontal</strong> para la mejor vista de combate.</span>
+            </div>
+
+            <!-- Interfaz de Controles Táctiles Interactiva -->
+            <div class="mobile-controls-demo-box">
+              <!-- Cruceta D-Pad -->
+              <div class="virtual-dpad-demo">
+                <button class="dpad-demo-btn dpad-up" title="Arriba">▲</button>
+                <div class="dpad-demo-mid">
+                  <button class="dpad-demo-btn dpad-left" title="Izquierda">◀</button>
+                  <div class="dpad-demo-center"></div>
+                  <button class="dpad-demo-btn dpad-right" title="Derecha">▶</button>
+                </div>
+                <button class="dpad-demo-btn dpad-down" title="Abajo">▼</button>
+              </div>
+
+              <!-- Botones de Acción Táctiles -->
+              <div class="virtual-actions-demo">
+                <div class="touch-btn-demo">
+                  <img src="assets/icons/mochila.png" class="pixel-icon" alt="Mochila">
+                  <span>Mochila [G]</span>
+                </div>
+                <div class="touch-btn-demo action-btn-demo">
+                  <img src="assets/icons/espadas_cruzadas.png" class="pixel-icon" alt="Acción">
+                  <span>Acción [E]</span>
+                </div>
+              </div>
+            </div>
+
+            <ul class="innovation-bullets">
+              <li>
+                <strong>Cero Descargas:</strong> Funciona directamente en navegadores móviles (Chrome, Safari, Firefox) sin necesidad de emuladores ni apps externas.
+              </li>
+              <li>
+                <strong>Detección Inteligente:</strong> Los controles táctiles aparecen automáticamente en pantallas táctiles y se adaptan al teclado en PC.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Columna 2: Salón de la Fama y Sincronización en la Nube -->
+          <div class="innovation-card">
+            <div class="innovation-card-header">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <img src="assets/icons/trofeo.png" class="pixel-icon-lg" alt="Trofeo">
+                <div>
+                  <h4 style="font-family:var(--font-title); font-size:1.15rem; color:#fff;">Salón de la Fama en Tiempo Real</h4>
+                  <span style="font-size:0.75rem; color:var(--gold-light); font-family:var(--font-retro);">Competitividad Formativa</span>
+                </div>
+              </div>
+              <span class="system-badge">Cloud Sync</span>
+            </div>
+
+            <p style="font-size:0.84rem; color:#cbd5e1; margin-bottom:8px;">
+              📡 Sincronización en vivo con la nube: las mejores puntuaciones de los estudiantes se registran de forma transparente al completar la aventura.
+            </p>
+
+            <!-- Mini Tabla de Ranking Global -->
+            <div class="ranking-mini-preview">
+              <div class="ranking-preview-row rank-1">
+                <span class="rank-pos">🥇 #1</span>
+                <span class="rank-player">Gosling_UV</span>
+                <span class="rank-score">20,000 PTS</span>
+                <span class="rank-medals">20 / 20 🏅</span>
+              </div>
+              <div class="ranking-preview-row rank-2">
+                <span class="rank-pos">🥈 #2</span>
+                <span class="rank-player">Valquiria_FCA</span>
+                <span class="rank-score">18,500 PTS</span>
+                <span class="rank-medals">19 / 20 🏅</span>
+              </div>
+              <div class="ranking-preview-row rank-3">
+                <span class="rank-pos">🥉 #3</span>
+                <span class="rank-player">Paladín_Java</span>
+                <span class="rank-score">16,200 PTS</span>
+                <span class="rank-medals">17 / 20 🏅</span>
+              </div>
+            </div>
+
+            <ul class="innovation-bullets">
+              <li>
+                <strong>Motivación por Logro:</strong> Los alumnos se esfuerzan por cometer menos errores y completar los desafíos en menor tiempo para liderar la tabla.
+              </li>
+              <li>
+                <strong>Cuentas y Progreso Guardado:</strong> Permite guardar partidas en la nube mediante correo institucional o continuar como invitado.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: SIMULADOR JUGABLE DE BYTEVALIA (ESPACIOSO CON INTERACCIÓN JUGADOR-JEFE) -->
+      <section class="slide" id="slide-11" data-title="Simulador de Bytevalia">
+        <div class="slide-header">
+          <div class="slide-category">Demostración Jugable en Vivo</div>
+          <h2 class="slide-title">Simulador Jugable de <span class="gradient-text">Bytevalia</span></h2>
+          <p class="slide-subtitle">Controla al héroe en un mapa espacioso, abre el cofre para conseguir una poción y acércate al Duende para activar el combate.</p>
+        </div>
+
+        <div class="slide-body simulator-wide-layout">
+          <!-- Franja Superior de Pasos de la Simulación -->
+          <div class="sim-guide-ribbon">
+            <div class="sim-ribbon-item">
+              <img src="assets/icons/espadas_cruzadas.png" class="pixel-icon-sm" alt="Controles">
+              <span><strong>1. Controles:</strong> Flechas / WASD o Cruceta en pantalla</span>
+            </div>
+            <div class="sim-ribbon-item">
+              <img src="assets/icons/pocion.png" class="pixel-icon-sm" alt="Cofre">
+              <span><strong>2. Cofre del Tesoro:</strong> Toca el cofre para obtener 1 Poción Curativa</span>
+            </div>
+            <div class="sim-ribbon-item highlight-ribbon">
+              <img src="assets/icons/objetivo.png" class="pixel-icon-sm" alt="Jefe">
+              <span><strong>3. Desafío con el Jefe:</strong> Acércate al Duende para activar el combate de sintaxis</span>
+            </div>
+          </div>
+
+          <!-- Escenario Amplio del Simulador -->
+          <div class="simulator-wide-stage">
+            <!-- HUD Superior del Simulador -->
+            <div class="simulator-hud-wide">
+              <div class="hud-group">
+                <img src="assets/icons/escudo.png" alt="Héroe" class="pixel-icon-sm">
+                <span>Héroe</span>
+                <span class="sim-hearts-box" id="sim-hearts-display" style="display:flex; gap:3px; margin-left:4px;">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="❤️">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="❤️">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="❤️">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="❤️">
+                  <img src="assets/icons/corazon_lleno.png" class="pixel-icon-sm" alt="❤️">
+                </span>
+                <span style="color:#f87171; font-size:11px;">(HP: <span id="sim-hero-hp">5</span>/5)</span>
+              </div>
+
+              <div class="hud-group">
+                <img src="assets/icons/espada.png" alt="Ataque" class="pixel-icon-sm">
+                <span>ATQ: <strong style="color:var(--gold-light);">25</strong></span>
+              </div>
+
+              <div class="hud-group">
+                <img src="assets/icons/pocion.png" alt="Poción" class="pixel-icon-sm">
+                <span>Pociones: <strong id="sim-potions-count" style="color:var(--emerald);">1</strong></span>
+                <button id="sim-btn-heal" class="btn-retro btn-primary" style="font-size:8px; padding:3px 8px;">Tomar Poción</button>
+              </div>
+
+              <div class="hud-group">
+                <img src="assets/icons/llave.png" alt="Llaves" class="pixel-icon-sm">
+                <span>Llaves: <strong id="sim-keys-count" style="color:#38bdf8;">1</strong></span>
+              </div>
+
+              <div class="hud-group">
+                <button id="sim-btn-direct-boss" class="btn-retro btn-warning" style="font-size:8px; padding:3px 8px;">
+                  ⚔️ Simular Desafío con Jefe
+                </button>
+              </div>
+            </div>
+
+            <!-- Canvas 2D Amplio -->
+            <div class="simulator-canvas-relative">
+              <canvas id="game-canvas" width="820" height="260"></canvas>
+
+              <!-- Modal de Encuentro y Combate Interactivo con el Jefe (Flotante sobre el canvas) -->
+              <div id="sim-encounter-modal" class="sim-encounter-overlay hidden">
+                <div class="sim-encounter-card">
+                  <div class="encounter-header">
+                    <img src="assets/images/enemigo1.png" alt="Duende" class="pixel-sprite encounter-boss-sprite">
+                    <div>
+                      <h4 style="font-family:var(--font-title); color:var(--gold-light); font-size:1.1rem;">
+                        ¡Encuentro con el Duende de la Sintaxis!
+                      </h4>
+                      <span style="font-family:var(--font-retro); font-size:9px; color:#4ade80;">Guardián del Punto y Coma · Nivel 1</span>
+                    </div>
+                  </div>
+                  <p class="encounter-speech">
+                    "¡Nadie cruza este sendero sin conocer las leyes de Bytevalia! Responde para abrir la puerta: <strong>¿Con qué símbolo termina obligatoriamente cada instrucción en Java?</strong>"
+                  </p>
+                  <div class="encounter-options">
+                    <button class="btn-retro btn-primary btn-sim-choice" data-choice="correct">
+                      A) ; (Punto y coma)
+                    </button>
+                    <button class="btn-retro btn-secondary btn-sim-choice" data-choice="wrong">
+                      B) : (Dos puntos)
+                    </button>
+                  </div>
+                  <div id="sim-encounter-feedback" class="encounter-feedback hidden"></div>
+                  <button id="btn-close-sim-encounter" class="btn-link-subtle" style="font-size:10px; margin-top:6px; cursor:pointer;">
+                    ✖ Retirada Táctica / Cerrar Desafío
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Barra Inferior de Controles del Simulador -->
+            <div class="simulator-bottom-bar">
+              <div id="game-dialog-banner" class="sim-dialog-pill">
+                🎮 Usa las flechas del teclado o los botones para mover al héroe, abrir el cofre y tocar al duende.
+              </div>
+
+              <!-- D-Pad Virtual -->
+              <div class="sim-dpad-cluster">
+                <button id="dpad-up" class="dpad-btn" title="Arriba">▲</button>
+                <div style="display:flex; gap:3px;">
+                  <button id="dpad-left" class="dpad-btn" title="Izquierda">◀</button>
+                  <button id="dpad-down" class="dpad-btn" title="Abajo">▼</button>
+                  <button id="dpad-right" class="dpad-btn" title="Derecha">▶</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: SALÓN DE LA FAMA, CONCLUSIONES Y ACCESO AL JUEGO -->
+      <section class="slide" id="slide-12" data-title="Acceso al Juego y Conclusiones">
+        <div class="slide-header">
+          <div class="slide-category">Conclusión & Cierre Institucional</div>
+          <h2 class="slide-title">Salón de la Fama y <span class="gradient-text">Acceso al Juego</span></h2>
+          <p class="slide-subtitle">Escanea el código QR para entrar al juego web, desafiar a los 20 jefes y grabar tu nombre en la historia.</p>
+        </div>
+
+        <div class="slide-body access-grid">
+          <!-- Columna Izquierda: Salón de la Fama Real (Ranking Global) -->
+          <div class="leaderboard-card-demo">
+            <div class="box-header" style="padding:10px 14px;">
+              <h2><img src="assets/icons/trofeo.png" class="pixel-icon" alt="Trofeo"> Salón de la Fama - Ranking Global</h2>
+              <span class="system-badge">Sincronizado</span>
+            </div>
+            <p class="ranking-info-note" style="font-size:11px; padding:0 14px; margin:4px 0;">
+              📡 Récords validados de estudiantes tras completar la aventura de Java:
+            </p>
+            <div class="ranking-table-wrapper" style="padding:0 14px 14px 14px;">
+              <table class="ranking-table">
+                <thead>
+                  <tr>
+                    <th>Puesto</th>
+                    <th>Héroe</th>
+                    <th>Puntaje</th>
+                    <th>Medallas</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody id="ranking-table-body-demo">
+                  <tr>
+                    <td>🥇 #1</td>
+                    <td><strong>Gosling_UV</strong></td>
+                    <td style="color:var(--gold-light);">20,000 PTS</td>
+                    <td>20 / 20</td>
+                    <td>Hoy</td>
+                  </tr>
+                  <tr>
+                    <td>🥈 #2</td>
+                    <td><strong>Valquiria_FCA</strong></td>
+                    <td style="color:var(--gold-light);">18,500 PTS</td>
+                    <td>19 / 20</td>
+                    <td>Ayer</td>
+                  </tr>
+                  <tr>
+                    <td>🥉 #3</td>
+                    <td><strong>Paladín_Java</strong></td>
+                    <td style="color:var(--gold-light);">16,200 PTS</td>
+                    <td>17 / 20</td>
+                    <td>24 Sep</td>
+                  </tr>
+                  <tr>
+                    <td>🎖️ #4</td>
+                    <td><strong>Luis_Bytevalia</strong></td>
+                    <td style="color:var(--gold-light);">15,000 PTS</td>
+                    <td>16 / 20</td>
+                    <td>22 Sep</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Código QR, Enlace Directo y Conclusiones del Proyecto -->
+          <div class="access-details-card">
+            <!-- Generador Dinámico de QR -->
+            <div class="qr-box-container">
+              <div class="qr-canvas-wrapper" id="qr-canvas-box"></div>
+              <div class="qr-caption">
+                📱 <strong>ESCANEA CON TU CELULAR</strong><br>
+                para jugar de inmediato en tu navegador
+              </div>
+            </div>
+
+            <!-- Conclusiones Clave del Proyecto -->
+            <div class="conclusions-box">
+              <h4 style="font-family:var(--font-title); font-size:1.05rem; color:var(--gold-light); margin-bottom:8px;">
+                Conclusiones del Proyecto
+              </h4>
+              <ul class="conclusion-bullets">
+                <li>
+                  <strong>Gamificación de Alto Impacto:</strong> Reducción demostrada en la curva de frustración en temas como tipos de datos y condicionales.
+                </li>
+                <li>
+                  <strong>Soberanía Web y Ligereza:</strong> 100% compatible con cualquier PC o celular sin instalaciones ni dependencias.
+                </li>
+                <li>
+                  <strong>Orgullo e Identidad UV:</strong> Desarrollado en la Facultad de Contaduría y Administración para inspirar a futuras generaciones.
+                </li>
+              </ul>
+            </div>
+
+            <!-- Botón de Abrir Juego en Nueva Pestaña (Redirige a la página activa del juego en Vercel) -->
+            <a id="btn-enter-game" href="https://code-quest-theta.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-retro btn-primary pulse-hover" style="text-align:center; text-decoration:none; padding:12px; font-size:0.95rem;">
+              <img src="assets/icons/play.png" class="pixel-icon" alt="Jugar"> ¡ENTRAR A JUGAR AHORA!
+            </a>
+
+            <!-- Sello Institucional de Cierre UV -->
+            <div class="uv-auth-card-footer" style="margin-top:0;">
+              <img src="assets/images/uv.png" class="uv-mini-seal" alt="UV">
+              <div class="uv-footer-meta">
+                <strong>Universidad Veracruzana</strong>
+                <span>Licenciatura en Sistemas Computacionales Administrativos · FCA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==========================================
+         BARRA INFERIOR GLOBAL (FOOTER Y CONTROLES)
+         ========================================== -->
+    <footer class="deck-footer">
+      <div class="slide-nav-controls">
+        <button id="btn-prev-slide" class="nav-arrow-btn" title="Diapositiva Anterior [←]">
+          <img src="assets/icons/flecha_izquierda.png" class="pixel-icon-sm" alt="Anterior"> Anterior
+        </button>
+        <button id="btn-next-slide" class="nav-arrow-btn nav-arrow-primary" title="Siguiente Diapositiva [→]">
+          Siguiente <img src="assets/icons/flecha_derecha.png" class="pixel-icon-sm" alt="Siguiente">
+        </button>
+      </div>
+
+      <div class="slide-progress-wrapper">
+        <div class="slide-counter-badge">
+          <span id="slide-num-current">01</span> / <span id="slide-num-total">12</span>
+        </div>
+        <div class="progress-bar-track">
+          <div id="slide-progress-bar" class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="deck-footer-meta">
+        <span class="slide-name-badge" id="slide-title-display">Portada Institucional</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================
+       DRAWER DE NOTAS DEL ORADOR
+       ========================================== -->
+  <aside id="speaker-notes-drawer" class="notes-drawer">
+    <div class="drawer-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <img src="assets/icons/pergamino.png" class="pixel-icon-sm" alt="Notas">
+        <span>NOTAS DEL ORADOR</span>
+      </div>
+      <button id="btn-close-notes" class="tool-btn">✕</button>
+    </div>
+    <div id="notes-body" class="drawer-content">
+      <!-- Se inyecta dinámicamente según la diapositiva activa -->
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       MODAL DE VISTA DE MOSAICO (OVERVIEW)
+       ========================================== -->
+  <div id="overview-modal-overlay" class="modal-overlay">
+    <div class="overview-modal">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-family:var(--font-title); font-size:1.15rem; color:var(--gold-light);">
+          ☷ Vista General de Diapositivas
+        </h3>
+        <button id="btn-close-overview" class="tool-btn">✕</button>
+      </div>
+      <div id="overview-grid" class="overview-grid">
+        <!-- Renderizado dinámicamente con los 12 slides -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SCRIPTS: DATOS, AUDIO Y MOTOR DE PRESENTACIÓN
+       ========================================== -->
+  <script src="js/data/bosses.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

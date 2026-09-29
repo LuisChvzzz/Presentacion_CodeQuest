@@ -368,11 +368,12 @@ document.addEventListener('DOMContentLoaded', () => {
       card.innerHTML = `
         <img src="assets/images/enemigo${boss.id}.png" alt="${boss.name}" class="pixel-sprite codex-boss-sprite">
         <h4 class="codex-boss-name">${boss.name}</h4>
-        <span style="font-family:var(--font-retro); font-size:9px; color:${boss.color};">Nv. ${boss.level} · ${boss.hp} HP</span>
-        <p class="codex-boss-topic">${boss.theme}</p>
-        <div class="codex-boss-medal-row">
-          <img src="assets/images/medalla${boss.id}.png" alt="Medalla" class="pixel-icon-sm">
-          <span>${boss.medal}</span>
+        <span style="font-family:var(--font-retro); font-size:10px; color:${boss.color};">Nv. ${boss.level} · ${boss.hp} HP</span>
+        <div class="codex-boss-topic">${boss.theme}</div>
+        <p class="codex-boss-intro">"${boss.intro}"</p>
+        <div class="codex-boss-medal-row" title="Recompensa: ${boss.medal}">
+          <img src="assets/images/medalla${boss.id}.png" alt="${boss.medal}" class="codex-boss-medal-img">
+          <span class="codex-boss-medal-text">${boss.medal}</span>
         </div>
       `;
 

@@ -475,11 +475,18 @@ html, body {
   height: 100%;
 }
 
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
 .hero-desc {
-  font-size: 0.95rem;
-  color: #cbd5e1;
-  line-height: 1.5;
-  margin: 6px 0;
+  font-size: 1.1rem;
+  color: #e2e8f0;
+  line-height: 1.55;
+  margin: 2px 0;
 }
 
 .hero-icons-row {
@@ -770,9 +777,9 @@ html, body {
 }
 
 .bullet-body p {
-  font-size: 0.84rem;
-  color: #cbd5e1;
-  line-height: 1.4;
+  font-size: 1.02rem;
+  color: #e2e8f0;
+  line-height: 1.48;
 }
 
 .game-system-card {
@@ -891,18 +898,19 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 0.88rem;
-  color: #cbd5e1;
-  line-height: 1.45;
+  font-size: 1.02rem;
+  color: #e2e8f0;
+  line-height: 1.5;
 }
 
 .origin-quote-box {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 6px;
   padding: 8px 12px;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   font-style: italic;
   margin-top: 10px;
+  line-height: 1.45;
 }
 
 .error-border { border-left: 3px solid #ef4444; color: #fca5a5; }
@@ -973,9 +981,9 @@ html, body {
 }
 
 .purpose-card p {
-  font-size: 0.84rem;
-  color: #cbd5e1;
-  line-height: 1.45;
+  font-size: 1.02rem;
+  color: #e2e8f0;
+  line-height: 1.5;
 }
 
 .purpose-tag {
@@ -1143,10 +1151,10 @@ html, body {
   border: 1px solid var(--border-glass);
   border-radius: 6px;
   padding: 8px;
-  font-size: 0.78rem;
-  color: #cbd5e1;
+  font-size: 0.95rem;
+  color: #e2e8f0;
   text-align: left;
-  line-height: 1.35;
+  line-height: 1.42;
 }
 
 .boss-problem-box strong {
@@ -1321,8 +1329,8 @@ html, body {
 }
 
 .curriculum-card p {
-  font-size: 0.76rem;
-  color: #94a3b8;
+  font-size: 0.92rem;
+  color: #cbd5e1;
 }
 
 .battle-question-box {
@@ -1399,9 +1407,9 @@ html, body {
   border: 2px solid var(--cyan);
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 0.82rem;
+  font-size: 0.96rem;
   color: #cbd5e1;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .explanation-header {
@@ -1952,9 +1960,9 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 0.82rem;
-  color: #cbd5e1;
-  line-height: 1.4;
+  font-size: 1.02rem;
+  color: #e2e8f0;
+  line-height: 1.5;
 }
 
 .innovation-bullets strong {
@@ -2282,9 +2290,9 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 0.82rem;
-  color: #cbd5e1;
-  line-height: 1.35;
+  font-size: 1.04rem;
+  color: #e2e8f0;
+  line-height: 1.5;
 }
 
 .conclusion-bullets strong {

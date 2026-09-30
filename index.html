@@ -601,9 +601,12 @@
           <div class="codex-audio-strip">
             <div style="display:flex; align-items:center; gap:8px;">
               <img src="assets/icons/sonido_on.png" class="pixel-icon" alt="Audio">
-              <span style="font-size:0.84rem; color:#cbd5e1;">Haz clic en cualquier jefe para escuchar su <strong>tema de batalla original en MP3</strong>.</span>
+              <span style="font-size:0.86rem; color:#cbd5e1;">Haz clic en cualquier jefe para escuchar o pausar su <strong>tema de combate original en MP3</strong>.</span>
             </div>
-            <span id="codex-playing-track" style="font-family:var(--font-retro); font-size:0.65rem; color:var(--gold-light);">Tema: mapa.mp3</span>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span id="codex-playing-track" style="font-family:var(--font-retro); font-size:0.68rem; color:var(--gold-light);">⚡ Haz clic en un jefe para escuchar su tema</span>
+              <button id="btn-codex-stop" class="btn-retro btn-secondary" style="display:none; padding:4px 8px; font-size:10px;" title="Detener música activa">⏹ Detener</button>
+            </div>
           </div>
         </div>
       </section>

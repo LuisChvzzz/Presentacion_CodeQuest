@@ -33,26 +33,83 @@ class SoundEngine {
     }
   }
 
-  // Detener toda la música activa de inmediato
+  // Detener toda la música activa de inmediato sin errores ni superposición
   stopMusic() {
-    Object.values(this.audioElements).forEach((audio) => {
-      if (audio && typeof audio.pause === 'function') {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    });
+    // 1. Detener explícitamente la música actual activa
+    if (this.currentMusic) {
+      try {
+        this.currentMusic.pause();
+      } catch (e) {}
+      try {
+        if (this.currentMusic.readyState > 0 && isFinite(this.currentMusic.currentTime)) {
+          this.currentMusic.currentTime = 0;
+        }
+      } catch (e) {}
+    }
+
+    // 2. Por seguridad estricta, recorrer todos los elementos de audio registrados
+    if (this.audioElements) {
+      Object.keys(this.audioElements).forEach((key) => {
+        const audio = this.audioElements[key];
+        if (audio && typeof audio.pause === 'function') {
+          try {
+            audio.pause();
+          } catch (e) {}
+          try {
+            // Solo resetear currentTime si el medio está listo para evitar InvalidStateError en Safari
+            if (audio.readyState > 0 && !isNaN(audio.duration) && isFinite(audio.currentTime)) {
+              audio.currentTime = 0;
+            }
+          } catch (e) {}
+        }
+      });
+    }
+
+    // 3. Pausar cualquier etiqueta <audio> residual en el DOM si existiera
+    try {
+      document.querySelectorAll('audio').forEach((el) => {
+        try {
+          el.pause();
+          if (el.readyState > 0) el.currentTime = 0;
+        } catch (e) {}
+      });
+    } catch (e) {}
+
     this.currentMusic = null;
     this.currentMusicKey = null;
   }
 
+  // Pausar la pista actual sin olvidar la pista seleccionada
+  pauseMusic() {
+    if (this.currentMusic) {
+      try {
+        this.currentMusic.pause();
+        return true;
+      } catch (e) {}
+    }
+    return false;
+  }
+
+  // Reanudar la pista actual si estaba pausada
+  resumeMusic() {
+    if (this.currentMusic && this.currentMusic.paused && !this.isMuted) {
+      const p = this.currentMusic.play();
+      if (p !== undefined) {
+        p.catch((err) => console.log("Audio espera interacción:", err.message));
+      }
+      return true;
+    }
+    return false;
+  }
+
   // Reproducir música del mapa o de la sala de cada jefe
   playMusic(key) {
-    // Si ya se está reproduciendo este mismo tema, no reiniciar ni superponer
+    // Si ya se está reproduciendo este mismo tema y no está en pausa, no reiniciar
     if (this.currentMusicKey === key && this.currentMusic && !this.currentMusic.paused) {
-      return;
+      return this.currentMusic;
     }
 
-    // Detener de inmediato cualquier música previa en todos los elementos
+    // Detener de inmediato y con total certeza cualquier música previa para evitar superposición
     this.stopMusic();
 
     const track = this.audioElements[key];
@@ -62,14 +119,21 @@ class SoundEngine {
       this.currentMusic = track;
       this.currentMusicKey = key;
       if (!this.isMuted) {
+        try {
+          if (track.readyState > 0) {
+            track.currentTime = 0;
+          }
+        } catch (e) {}
         const playPromise = track.play();
         if (playPromise !== undefined) {
           playPromise.catch((err) => {
-            console.log("Audio espera interacción del usuario:", err.message);
+            console.log("Audio espera interacción del usuario o fue interrumpido:", err.message);
           });
         }
       }
+      return track;
     }
+    return null;
   }
 
   // Iniciar tema según contexto (Misma lógica estricta que Juego_web)

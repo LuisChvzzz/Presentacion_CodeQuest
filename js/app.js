@@ -20,10 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (slideIdx === 5) {
       // Slide 6 (Códice de los 20 Jefes):
-      // Si ya hay un tema de jefe reproduciéndose, mantenerlo; si no, tema de exploración
-      if (!soundEngine.currentMusic) {
-        soundEngine.startMusic('explore');
+      // IMPORTANTE: En la diapositiva 6 el orador explora los audios de los 20 jefes.
+      // Detenemos de inmediato el audio ambiental del inicio (mapa.mp3) para que nunca se sobreponga.
+      soundEngine.stopMusic();
+      if (codexPlayingTrack) {
+        codexPlayingTrack.innerHTML = '⚡ Haz clic en cualquier jefe para escuchar su tema de combate (jefe1 - jefe20)';
       }
+      const btnCodexStop = document.getElementById('btn-codex-stop');
+      if (btnCodexStop) btnCodexStop.style.display = 'none';
+      document.querySelectorAll('.codex-boss-card').forEach((c) => c.classList.remove('playing-boss'));
     } else if (slideIdx === 7) {
       // Slide 8 (Combate Interactivo contra el Duende - Jefe 1):
       // Música auténtica de combate contra jefe (jefe1.mp3)
@@ -42,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
         isBgmPlaying = false;
         btnToggleMusic.textContent = '🎵 Música: OFF';
         btnToggleMusic.classList.remove('playing');
+        document.querySelectorAll('.codex-boss-card').forEach((c) => c.classList.remove('playing-boss'));
+        if (currentSlideIndex === 5 && codexPlayingTrack) {
+          codexPlayingTrack.innerHTML = '🔇 Audio desactivado';
+        }
       } else {
         isBgmPlaying = true;
         btnToggleMusic.textContent = '🔊 Música: ON';
@@ -363,9 +372,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const tierBosses = BOSSES_DATA.slice(startIdx, startIdx + 5);
 
     tierBosses.forEach((boss, i) => {
+      const isBossCurrentlyPlaying = soundEngine && 
+                                     soundEngine.currentMusicKey === `jefe${boss.id}` && 
+                                     soundEngine.currentMusic && 
+                                     !soundEngine.currentMusic.paused;
+
       const card = document.createElement('div');
-      card.className = `codex-boss-card ${i === 0 ? 'active' : ''}`;
+      card.className = `codex-boss-card ${isBossCurrentlyPlaying ? 'active playing-boss' : (i === 0 && !soundEngine?.currentMusicKey ? 'active' : '')}`;
+      card.setAttribute('data-boss-id', boss.id);
       card.innerHTML = `
+        <div class="codex-boss-audio-badge">
+          <span class="audio-badge-icon">${isBossCurrentlyPlaying ? '🔊' : '🎵'}</span>
+          <span class="codex-audio-badge-text">${isBossCurrentlyPlaying ? 'Reproduciendo' : 'Tema de combate'}</span>
+        </div>
         <img src="assets/images/enemigo${boss.id}.png" alt="${boss.name}" class="pixel-sprite codex-boss-sprite">
         <h4 class="codex-boss-name">${boss.name}</h4>
         <span style="font-family:var(--font-retro); font-size:10px; color:${boss.color};">Nv. ${boss.level} · ${boss.hp} HP</span>
@@ -378,23 +397,82 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       card.addEventListener('click', () => {
-        document.querySelectorAll('.codex-boss-card').forEach((c) => c.classList.remove('active'));
-        card.classList.add('active');
+        const isCurrentPlaying = soundEngine && 
+                                 soundEngine.currentMusicKey === `jefe${boss.id}` && 
+                                 soundEngine.currentMusic && 
+                                 !soundEngine.currentMusic.paused;
 
-        if (soundEngine) {
-          soundEngine.playMusic(`jefe${boss.id}`);
-          isBgmPlaying = true;
-          if (btnToggleMusic) {
-            btnToggleMusic.textContent = '🔊 Música: ON';
-            btnToggleMusic.classList.add('playing');
+        const btnCodexStop = document.getElementById('btn-codex-stop');
+
+        if (isCurrentPlaying) {
+          // Si ya estaba sonando este mismo jefe, pausar
+          soundEngine.pauseMusic();
+          card.classList.remove('playing-boss');
+          const badgeIcon = card.querySelector('.audio-badge-icon');
+          const badgeText = card.querySelector('.codex-audio-badge-text');
+          if (badgeIcon) badgeIcon.textContent = '⏸';
+          if (badgeText) badgeText.textContent = 'En pausa';
+
+          if (codexPlayingTrack) {
+            codexPlayingTrack.innerHTML = `⏸ <strong>En pausa:</strong> jefe${boss.id}.mp3 (${boss.name}) <span style="opacity:0.75; font-size:0.6rem;">[Click para reanudar]</span>`;
           }
-        }
-        if (codexPlayingTrack) {
-          codexPlayingTrack.textContent = `🎵 Reproduciendo: jefe${boss.id}.mp3 (${boss.name})`;
+          if (btnCodexStop) btnCodexStop.style.display = 'inline-block';
+        } else {
+          // Desmarcar todas las demás tarjetas
+          document.querySelectorAll('.codex-boss-card').forEach((c) => {
+            c.classList.remove('active');
+            c.classList.remove('playing-boss');
+            const bIcon = c.querySelector('.audio-badge-icon');
+            const bText = c.querySelector('.codex-audio-badge-text');
+            if (bIcon) bIcon.textContent = '🎵';
+            if (bText) bText.textContent = 'Tema de combate';
+          });
+
+          card.classList.add('active');
+          card.classList.add('playing-boss');
+          const badgeIcon = card.querySelector('.audio-badge-icon');
+          const badgeText = card.querySelector('.codex-audio-badge-text');
+          if (badgeIcon) badgeIcon.textContent = '🔊';
+          if (badgeText) badgeText.textContent = 'Reproduciendo';
+
+          if (soundEngine) {
+            soundEngine.playMusic(`jefe${boss.id}`);
+            isBgmPlaying = true;
+            if (btnToggleMusic) {
+              btnToggleMusic.textContent = '🔊 Música: ON';
+              btnToggleMusic.classList.add('playing');
+            }
+          }
+          if (codexPlayingTrack) {
+            codexPlayingTrack.innerHTML = `🎵 <strong>Reproduciendo:</strong> jefe${boss.id}.mp3 (${boss.name}) <span style="opacity:0.75; font-size:0.6rem;">[Click para pausar]</span>`;
+          }
+          if (btnCodexStop) {
+            btnCodexStop.style.display = 'inline-block';
+          }
         }
       });
 
       codexBossesGrid.appendChild(card);
+    });
+  }
+
+  // Botón para detener reproducción en Slide 6
+  const btnCodexStop = document.getElementById('btn-codex-stop');
+  if (btnCodexStop) {
+    btnCodexStop.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (soundEngine) soundEngine.stopMusic();
+      document.querySelectorAll('.codex-boss-card').forEach((c) => {
+        c.classList.remove('playing-boss');
+        const bIcon = c.querySelector('.audio-badge-icon');
+        const bText = c.querySelector('.codex-audio-badge-text');
+        if (bIcon) bIcon.textContent = '🎵';
+        if (bText) bText.textContent = 'Tema de combate';
+      });
+      if (codexPlayingTrack) {
+        codexPlayingTrack.innerHTML = '⏹ Tema de jefe detenido. Clic en un jefe para escuchar.';
+      }
+      btnCodexStop.style.display = 'none';
     });
   }
 
